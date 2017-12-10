@@ -78,7 +78,8 @@
     <typeVale editor="banner管理" editorId="9" editorAll="banner管理">banner管理</typeVale>  
     <typeVale editor="会员logo管理" editorId="30" editorAll="会员logo管理">会员logo管理</typeVale>  
     <typeVale editor="其它页logo管理" editorId="31" editorAll="其它页logo管理">其它页logo管理</typeVale>  
-    <typeVale editor="首页banner下图片" editorId="82" editorAll="首页banner下图片">首页banner下图片</typeVale> 
+    <typeVale editor="首页banner下图片" editorId="82" editorAll="首页banner下图片">首页banner下图片</typeVale>  
+    <typeVale editor="手机logo管理" editorId="84" editorAll="手机logo管理">手机logo管理</typeVale> 
   </type>  
   <type editor="全部模型" editorId="29" editorAll="全部模型"/>  
   <type editor="风格" editorId="32" editorAll="风格"/>  

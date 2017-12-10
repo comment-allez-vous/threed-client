@@ -4,6 +4,7 @@ import com.hz.ui.myphoto.bean.PhotoBean;
 import com.hz.ui.myphoto.constants.MyPhotoConstantsUI;
 
 import javax.swing.*;
+import javax.swing.plaf.PanelUI;
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -21,7 +22,7 @@ public class MainPhotoPanel extends JScrollPane {
 
     private JPanel photopanel;
 
-    private List<PhotoBean> data=new ArrayList<PhotoBean>();
+    private List<PhotoBean> data = new ArrayList<PhotoBean>();
 
 
     public void setData(List<PhotoBean> data) {
@@ -42,34 +43,38 @@ public class MainPhotoPanel extends JScrollPane {
 //    }
 
 
-    public MainPhotoPanel(int width,int height){
-        this.width=width;
-        this.height=height;
+    public MainPhotoPanel(int width, int height) {
+        this.width = width;
+        this.height = height;
 //        createData();
 //        init();
     }
 
-    public void init(){
-        this.setPreferredSize(new Dimension(this.width,this.height));
-        int v=ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED;
-        int h=ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER;
-        photopanel=photoPanel();
+    public void init() {
+        this.setPreferredSize(new Dimension(this.width, this.height));
+        int v = ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED;
+        int h = ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER;
+        photopanel = photoPanel();
+        this.horizontalScrollBar.setVisible(false);
         this.setViewportView(photopanel);
         this.setVisible(true);
     }
 
-    private JPanel photoPanel(){
-        JPanel jPanel=new JPanel();
-        jPanel.setLayout(new FlowLayout(FlowLayout.LEFT,0,10));
-        jPanel.setPreferredSize(new Dimension(this.width-10,getPanelHeight()));
+    private JPanel photoPanel() {
+        JPanel jPanel = new JPanel();
+        jPanel.setLayout(new FlowLayout(FlowLayout.LEFT, 0, 10));
+        jPanel.setPreferredSize(new Dimension(this.width - 10, getPanelHeight()));
+        jPanel.setBackground(Color.green);
 
-        if(data.size()>0){
-        	  for (PhotoBean photo:data) {
-                  PhotoInfoPanel infoPanel = new PhotoInfoPanel(photo);
-                  jPanel.add(infoPanel);
-              }
+
+        if (data.size() > 0) {
+            for (PhotoBean photo : data) {
+                PhotoInfoPanel infoPanel = new PhotoInfoPanel(photo);
+                infoPanel.setBackground(Color.white);
+                jPanel.add(infoPanel);
+            }
         }
-      
+
 
         jPanel.setVisible(true);
         return jPanel;
@@ -79,24 +84,22 @@ public class MainPhotoPanel extends JScrollPane {
 
     /**
      * 根据要显示的图片数量计算要设置的高度
+     *
      * @return
      */
-    private int getPanelHeight(){
-    	if(data.size()>0){
-    		int photowidth=data.get(0).getWidth();
-            int photoheigth=data.get(0).getImageheight()+data.get(0).getInfoheight();
+    private int getPanelHeight() {
+        if (data.size() > 0) {
+            int photowidth = data.get(0).getWidth();
+            int photoheigth = data.get(0).getImageheight() + data.get(0).getInfoheight();
             //每行显示多少个
-            int colNum=(this.width-30)/photowidth;
-            double rownum=Math.ceil((float)data.size()/colNum);
-            int height= (int) ((rownum*photoheigth)+20*(rownum+1));
+            int colNum = (this.width - 30) / photowidth;
+            double rownum = Math.ceil((float) data.size() / colNum);
+            int height = (int) ((rownum * photoheigth) + 20 * (rownum + 1));
             return height;
-    	}
-        
+        }
+
         return height;
     }
-
-
-
 
 
 }

@@ -192,7 +192,7 @@ public class ProjectConfigUtil {
 		 String results = json.getString("success");
 		 String msg=json.getString("msg");
 		 if(!"true".equals(results)){
-			 JOptionPane.showMessageDialog(null,"查询图片为空","错误",JOptionPane.ERROR_MESSAGE);
+			 // TODO JOptionPane.showMessageDialog(null,"查询图片为空","错误",JOptionPane.ERROR_MESSAGE);
 			 return photoList;
 		 }
 		JSONArray list=json.getJSONArray("obj");
