@@ -218,6 +218,6 @@ public class ProjectConfigUtil {
 	 }
 	 
 	 public static void main(String[] args) {
-		 ProjectConfigUtil.downloadPhoto("huangzhuo","75","image","","1");
+		 ProjectConfigUtil.getCatalogForServer("0");
 		}
 }

@@ -1,5 +1,6 @@
 package com.hz.ui.myphoto.panel;
 
+import com.hz.ui.LoginUi;
 import com.hz.ui.MyPhotoShow;
 import com.hz.ui.myphoto.Label.LinkLabel;
 import com.hz.ui.myphoto.Label.MypohotoJLabel;
@@ -11,8 +12,10 @@ import javax.swing.plaf.basic.BasicComboBoxUI;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.awt.event.MouseMotionAdapter;
 
 /**
  * Created by hasee on 2017/9/2.
@@ -37,7 +40,9 @@ public class MainTopPanel extends JPanel {
 	public JLabel lbArd;//按热度文本标签
 	public JLabel lbAgxsj;//按更新时间文本标签
 	
-	
+	 //用于处理拖动事件，表示鼠标按下时的坐标，相对于JFrame
+	 int xOld = 0;
+	 int yOld = 0;
     //宽度
     private int width;
     
@@ -65,6 +70,39 @@ public class MainTopPanel extends JPanel {
     	otherSearch();
     	//显示关闭和最小化按钮
     	showCloseBtn();
+    	
+    	
+	      //处理拖动事件---去掉默认边框后，不能拖动了，具体实现如下
+	      this.addMouseListener(new MouseAdapter() {
+	      @Override
+	      public void mousePressed(MouseEvent e) {
+	        xOld = e.getX();//记录鼠标按下时的坐标
+	        yOld = e.getY();
+	       }
+	      });
+	      
+	      this.addMouseMotionListener(new MouseMotionAdapter() {
+	        @Override
+	        public void mouseDragged(MouseEvent e) {
+	        int xOnScreen = e.getXOnScreen();
+	        int yOnScreen = e.getYOnScreen();
+	        int xx = xOnScreen - xOld;
+	        int yy = yOnScreen - yOld;
+	        System.out.println(xx);
+	        System.out.println(yy);
+	        mainWindow.setLocation(33, 44);//设置拖拽后，窗口的位置
+	        }
+	      });
+    	
+//	      this.addMouseMotionListener(new MouseMotionAdapter() {
+//		        @Override
+//		        public void mouseDragged(MouseEvent e) {
+//		        int xOnScreen = e.getXOnScreen();
+//		        int yOnScreen = e.getYOnScreen();
+//		        System.out.println(xOnScreen);
+//		        mainWindow.changeStation();
+//		        }
+//		      });
     }
     
     /**

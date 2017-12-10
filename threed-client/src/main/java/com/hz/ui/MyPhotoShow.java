@@ -7,6 +7,9 @@
 package com.hz.ui;
 
 import java.awt.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseMotionAdapter;
 import java.util.ArrayList;
 
 import javax.swing.JFrame;
@@ -28,6 +31,13 @@ import com.hz.utils.PixelUtil;
 public class MyPhotoShow extends javax.swing.JFrame {
 	private JFrame frame;
 	private String userName;
+	
+	private MainPanel mainPanel;
+	private CategoryPanel categoryPanel;
+	
+	 //用于处理拖动事件，表示鼠标按下时的坐标，相对于JFrame
+	 int xOld = 0;
+	 int yOld = 0;
 
 	public MyPhotoShow() {
 		initComponents();
@@ -58,9 +68,9 @@ public class MyPhotoShow extends javax.swing.JFrame {
     	frame.setLayout( new BorderLayout());
 
 		AppControl appControl=AppControl.instance();
-		CategoryPanel categoryPanel=new CategoryPanel(MyPhotoConstantsUI.CALALOG_WIDTH,frame.getSize().height,this.getUserName());
+		categoryPanel=new CategoryPanel(MyPhotoConstantsUI.CALALOG_WIDTH,frame.getSize().height,this.getUserName());
 
-		MainPanel mainPanel=new MainPanel(frame.getSize().width-MyPhotoConstantsUI.CALALOG_WIDTH,frame.getSize().height);
+	    mainPanel=new MainPanel(frame.getSize().width-MyPhotoConstantsUI.CALALOG_WIDTH,frame.getSize().height,this);
 		
 		frame.add(categoryPanel,"West");
     	frame.add(mainPanel,"East"); //图片展示
@@ -73,25 +83,85 @@ public class MyPhotoShow extends javax.swing.JFrame {
 		java.util.List<JPanel> panelList=new ArrayList<>();
 		panelList.add(categoryPanel);
 		panelList.add(mainPanel);
-		FrameChangeListener listener=new FrameChangeListener(frame,panelList,this.getUserName(),appControl);
-		frame.setResizable(false);
+		FrameChangeListener listener=new FrameChangeListener(frame,panelList,this.getUserName(),appControl,this);
+		frame.setResizable(true);
 		appControl.setMainPanel(mainPanel);
+		
+		
+//		  //处理拖动事件---去掉默认边框后，不能拖动了，具体实现如下
+//		  this.addMouseListener(new MouseAdapter() {
+//		  @Override
+//		  public void mousePressed(MouseEvent e) {
+//		    xOld = e.getX();//记录鼠标按下时的坐标
+//		    yOld = e.getY();
+//		   }
+//		  });
+//		  
+//		    this.addMouseMotionListener(new MouseMotionAdapter() {
+//		    @Override
+//		    public void mouseDragged(MouseEvent e) {
+//		    int xOnScreen = e.getXOnScreen();
+//		    int yOnScreen = e.getYOnScreen();
+//		    int xx = xOnScreen - xOld;
+//		    int yy = yOnScreen - yOld;
+//		    MyPhotoShow.this.setLocation(xx, yy);//设置拖拽后，窗口的位置
+//		    }
+//		   });
+		
 
 		pack();
+		this.frame.setUndecorated(true);
+		
+		
+		
+
+	        
+		
 		
 		this.frame.setVisible(true);
+		
+		
+		
+		
+		
+
+		
+		
+	}
+	
+	public  void  changeStation(){
+	      //处理拖动事件---去掉默认边框后，不能拖动了，具体实现如下
+	      this.addMouseListener(new MouseAdapter() {
+	      @Override
+	      public void mousePressed(MouseEvent e) {
+	        xOld = e.getX();//记录鼠标按下时的坐标
+	        yOld = e.getY();
+	       }
+	      });
+	      
+	      this.addMouseMotionListener(new MouseMotionAdapter() {
+	        @Override
+	        public void mouseDragged(MouseEvent e) {
+	        int xOnScreen = e.getXOnScreen();
+	        int yOnScreen = e.getYOnScreen();
+	        int xx = xOnScreen - xOld;
+	        int yy = yOnScreen - yOld;
+	        MyPhotoShow.this.setLocation(xx, yy);//设置拖拽后，窗口的位置
+	        }
+	      });
 	}
 
 
 
 	public static void main(String args[]) {
-		MyPhotoShow window = new MyPhotoShow();
-//		 EventQueue.invokeLater(new Runnable() {
-//			public void run() {
+	//	MyPhotoShow window = new MyPhotoShow();
+		 EventQueue.invokeLater(new Runnable() {
+			public void run() {
 //				MyPhotoShow window = new MyPhotoShow();
-//              //  window.frame.setVisible(true);
-//			}
-//		});
+				MyPhotoShow window = new MyPhotoShow("yizhiqiang");
+              //  window.frame.setVisible(true);
+			}
+		});
 	}
 	public String getUserName() {
 		return userName;
@@ -100,6 +170,28 @@ public class MyPhotoShow extends javax.swing.JFrame {
 		this.userName = userName;
 	}
 
+	/**
+	 * 关闭窗口
+	 */
+	public void btnMin_ActionEvent(){
+    	frame.setExtendedState(JFrame.ICONIFIED);
+    }
 	
-
+	/**
+	 * 最大化
+	 */
+	public void btnMax_ActionEvent(){
+		frame.setExtendedState(JFrame.MAXIMIZED_BOTH); 
+	}
+	
+	public void resetSize(){
+		int width=frame.getWidth();
+		int height=frame.getHeight();
+		mainPanel.resetSize(width,height);
+		categoryPanel.resetSize(width,height);
+	}
+	
+	public JFrame getFrame(){
+		return frame;
+	}
 }

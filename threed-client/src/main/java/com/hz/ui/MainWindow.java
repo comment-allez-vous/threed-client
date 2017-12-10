@@ -116,12 +116,10 @@ public class MainWindow {
         logger.info("==================MainWindowInitEnd");
         
         
-        
-        
-        
-        
-        
-        
+    }
+    
+    public void btnMin_ActionEvent(){
+    	frame.setExtendedState(JFrame.ICONIFIED);
     }
 
 }

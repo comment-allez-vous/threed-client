@@ -100,7 +100,7 @@ public class AnalysisCatalogXml {
     	if(catalogList.size()<=0){
     		return "查询目录为空";
     	}
-    	XMLWriter writer=null;
+    
     	try {
 			SAXReader sax = new SAXReader();//创建一个SAXReader对象
 			File xmlFile = new File(MyPhotoConstantsUI.CALALOG_XML_PATH);//根据指定的路径创建file对象
@@ -109,9 +109,10 @@ public class AnalysisCatalogXml {
 			Iterator iter = root.elementIterator("type"); // 获取根节点下的子节点head
 
 
+//			OutputFormat format = OutputFormat.createPrettyPrint();  
+//			format.setEncoding("UTF-8");  
 			OutputFormat format = OutputFormat.createPrettyPrint();  
-			format.setEncoding("UTF-8");  
-			
+	        format.setEncoding("UTF-8");//设置编码格式 
 			if("0".equals(catalogId)){    //父节点的情况
 				List<CatalogInfoBean>  interatorToListForFather=AnalysisCatalogXml.interatorToListForFather(iter);
 				for(CatalogInfoBean catalogBean:catalogList){
@@ -134,10 +135,13 @@ public class AnalysisCatalogXml {
 					 }
 				}
 				//添加  
-				 writer = new XMLWriter(  
-					        new OutputStreamWriter(new FileOutputStream(MyPhotoConstantsUI.CALALOG_XML_PATH)), format); 
+//				XMLWriter writer = new XMLWriter(  
+//					        new OutputStreamWriter(new FileOutputStream(MyPhotoConstantsUI.CALALOG_XML_PATH)), format); 
+				 XMLWriter writer = new XMLWriter(  new OutputStreamWriter(new FileOutputStream(MyPhotoConstantsUI.CALALOG_XML_PATH),"UTF-8") ,format);
 				writer.write(document);
-			 //   writer.flush();  
+			    writer.flush();  
+				writer.close();
+
 			}else{  //子节点
 				while (iter.hasNext()) {
 					 Element recordEle = (Element) iter.next();
@@ -171,22 +175,19 @@ public class AnalysisCatalogXml {
 				   				 }
 				        	 }
 				        	//添加  
-							 writer = new XMLWriter(  
-								        new OutputStreamWriter(new FileOutputStream(MyPhotoConstantsUI.CALALOG_XML_PATH)), format); 
-				   			writer.write(document);
+//				        	 XMLWriter	 writer = new XMLWriter(  
+//								        new OutputStreamWriter(new FileOutputStream(MyPhotoConstantsUI.CALALOG_XML_PATH)), format); 
+				        	 XMLWriter writer = new XMLWriter(  new OutputStreamWriter(new FileOutputStream(MyPhotoConstantsUI.CALALOG_XML_PATH),"UTF-8") ,format);
+				        	 writer.write(document);
 				   			writer.flush();  
+				   			writer.close();
 				         }
 				     }
 					}
 			return "0";
 		} catch (Exception e) {
-			return "查询目录异常";
-		} finally{
-			try {
-				writer.close();
-			} catch (IOException e) {
-			}
-		}
+			return "查询目录异常"+e.getMessage();
+		} 
     }
   
     private static void writeNote(Element element,String classname,String classid,String typeName){

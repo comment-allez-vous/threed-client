@@ -55,6 +55,9 @@ public class PhotoInfoPanel extends JPanel {
 //            modellabel.setIcon(image);
         	 modellabel=new JLabel();
         	 modellabel.setText("<html><img style=\"width:"+photoBean.getWidth()+"px;height:"+photoBean.getImageheight()+"px;\" src='"+photoBean.getImagePath()+"'></img></html>");
+        	 
+        	 
+        	 
         	 this.add(modellabel);
         }
     }

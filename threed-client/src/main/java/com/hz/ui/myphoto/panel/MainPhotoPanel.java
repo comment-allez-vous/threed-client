@@ -51,6 +51,8 @@ public class MainPhotoPanel extends JScrollPane {
 
     public void init(){
         this.setPreferredSize(new Dimension(this.width,this.height));
+        int v=ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED;
+        int h=ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER;
         photopanel=photoPanel();
         this.setViewportView(photopanel);
         this.setVisible(true);
